@@ -1,0 +1,15 @@
+Q1. Please regenerate Fig. 2.4 in the book, and explain why in the UCB curve there is a spike at the 11th time step. 
+
+ 
+
+Please follow the HW submission rules below (true for all the future HWs)
+
+1. Please submit your HW report in Canvas, including a report in PDF and the associated executable Matlab code. 
+
+2. Name the report part as HW#_Q#_report_YourLastName.PDF
+
+3. Name the Matlab code as HW#_Q#_code_YourLastName.m
+
+If your submission does not follow the above rule, it won't be graded. No late submission is allowed. 
+
+Robert

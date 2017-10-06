@@ -1,0 +1,2 @@
+Online code <https://github.com/ShangtongZhang/reinforcement-learning-an-introduction>
+Book <http://incompleteideas.net/sutton/book/the-book-2nd.html>
