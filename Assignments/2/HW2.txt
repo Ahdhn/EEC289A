@@ -1,0 +1,5 @@
+Q1 (5pt). Exercise 3.19 
+
+Q2 (5pt). For Example 3.12, given the optimal policy shown on the right-most table, write out and solve the Bellman's equation set to obtain the optimal value table in the middle. 
+
+Q3 (10pt). Exercise 4.4 (you are required to re-generate those figures in Figure 4.2 with the new conditions). 
