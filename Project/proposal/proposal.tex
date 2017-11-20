@@ -1,0 +1,36 @@
+\documentclass[12pt]{article}
+\usepackage[top=0.2in, bottom=0.9in, left=0.9in, right=0.7in]{geometry}
+
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{subfig}
+\usepackage{wrapfig,lipsum}
+\usepackage{amssymb}
+%\usepackage{nath}
+%\usepackage{amsfonts}
+\usepackage{amsmath}
+
+
+\begin{document}
+
+\title{EEC 289A - Project Proposal \\ Reinforcement Learning for Remeshing}
+\author{Ahmed H. Mahmoud}
+\date{} 
+
+\maketitle
+
+We propose in this project to improve the scheduling of the remeshing operators presented in \cite{Abdelkader:2017:ACR} by experimenting with different reinforcement learning algorithms. Mesh is a collection of points (refered to as \emph{vertices}) in a certain dimension that models a discrete subset on the domain. The domain could be in two, three or even higher dimension. Special interest arises in 2D meshes embedded in 3D domain (i.e., curved surface meshes) as they describe some underlaying surface. Mesh is used in various applications range from numerical solutions for differential equations to computer graphics, animation and visualization to 3D printing. Each of these applications has different requirements on the mesh it uses. For convergence, finite elements methods require certain bounds on the angles, edge length and aspect ratio \cite{shewchuk2002good}. For computer graphics applications, it is usually desired to have light weight (fewer vertices) meshes to speed up the rendering process. Graphics applications still require meshes that represent the underlying surfaces faithfully which might need additional refinement i.e., more vertices.
+
+The work done in \cite{Abdelkader:2017:ACR} suggests a single framework to obtain a good mesh from input bad mesh. This is done by interpreting the goodness or badness of the mesh as quality objectives which is mapped into geometric primitives. The geometric primitives are later used to guide local resampling operators to improve small batches in the input mesh sequentially. The resampling operators are utilize to relocate, remove or add vertices. The geometric primitives are designed for monotonic improvement when the applied operators succeed. One drawback of this work is lacking a convenient scheduling of the operators that would serve the different and, sometimes, opposing desired quality objectives. 
+
+In this project, we propose the following:
+\begin{enumerate}
+
+\item Map the remeshing strategy presented in \cite{Abdelkader:2017:ACR} as a finite MDP process
+\item Present a new scheduling based on experimenting with different reinforcement learning algorithms
+\end{enumerate}
+In this project, we will focus on 2D triangular meshes. Due to versatility of the remeshing strategy, extending this work to curved surface meshes is a matter of adding additional constraints but the same and, hopefully, better scheduling can be used. 
+
+\bibliography{mybib}
+\bibliographystyle{plain}
+\end{document}
