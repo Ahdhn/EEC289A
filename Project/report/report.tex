@@ -69,11 +69,11 @@ Figure \ref{fig:operators} shows the five operators. We first invest sometime to
 
 \begin{figure}[htb]
 	\centering
-	\subfloat[Nonobtuse.]{\includegraphics[width=0.3\columnwidth]{figs/regions1.pdf}}
+	\subfloat[Nonobtuse.]{\includegraphics[width=0.25\columnwidth]{figs/regions1.pdf}}
 	\quad
-	\subfloat[$\protect\angle p_i \ge \theta_{\min}$.]{\includegraphics[width=0.3\columnwidth]{figs/regions2.png}}
+	\subfloat[$\protect\angle p_i \ge \theta_{\min}$.]{\includegraphics[width=0.25\columnwidth]{figs/regions2.png}}
 	\quad
-	\subfloat[Both objectives.]{\includegraphics[width=0.3\columnwidth]{figs/regions3.png}}	
+	\subfloat[Both objectives.]{\includegraphics[width=0.25\columnwidth]{figs/regions3.png}}	
 	\caption{Example primitives for resampling $p_3$ to form $\triangle p_1 p_2 p_3$: inclusion regions (green), exclusion regions (black boundaries).}
 	\label{fig:regions}
 \end{figure}
@@ -89,9 +89,18 @@ For each action taken, it is successful in eliminate at least one obtuse triangl
 
 
 \section{Numerical Results:}
-
+We applied several reinforcement learning algorithm over the stated problem. The algorithm were built on top of LibPGRL \citep{libpgrl} which fleixible implementation of several reinforcement learning application using C++. We experimented the above model using the following algorithms:
+\begin{itemize}
+\item Actor Critic with NeuralNet approximator
+\item SARSA with NeuralNet approximator and Softmax policy with decaying temperature
+\item SARSA with NeuralNet approximator and e-Greedy policy with constant epsilon
+\item SARSA with NeuralNet approximator and e-Greedy policy with decaying epsilon
+\item QLearning with NeuralNet approximator and Softmax policy with decaying temperature
+\item QLearning with NeuralNet approximator and e-Greedy policy with constant epsilon
+\item QLearning with NeuralNet approximator and e-Greedy policy with decaying epsilon
+\end{itemize}
 \section{Conclusion:}
-
+For each algorithm, a run consisted of 1M steps which are averaged over 20 runs. For consistency over all algorithms, we used $\lambda=0.9$, $\kappa=10^{-4}$, $\epsilon=0.5$. We reached this values through experimenting with different values and tuning up and down. 
 
 %\begin{figure}[tbh]
  %\centering     
