@@ -16,11 +16,11 @@
 \maketitle
 
 \section{Abstract:}
-In this work, we try to improve upon the work represented in ~\citep{Abdelkader:2017:ACR} to add another layer of fine-grained control of the selection of the meshing operator used to enhance the quality of triangular mesh. It has been previous shown that a generic framework can be devised to improve various quality of initial mesh; a process that is important for many computer graphics and simulation applications. The framework consisted of a set mesh operators that can be applied in varying order to the input initial mesh. However, there is no consistent scheduling of such operators and it was left to the user to choose the right scheduling. In this report, we argue that it is possible to automate the scheduling by leveraging ideas from reinforcement learning and integrate it in the framework. Doing so, it is possible to apply the framework on large set of quality that no mapping into geometric primitives e.g., aligning mesh edges with an underlying directional field ~\cite{Jakob:2015:IFM:2816795.2818078}. 
+In this work, we try to improve upon the work represented in ~\citep{Abdelkader:2017:ACR} to add another layer of fine-grained control of the selection on the meshing operator used to enhance the quality of triangular mesh. It has been previously shown that a generic framework can be devised to improve various quality of initial mesh; a process that is important for many computer graphics and simulation applications. The framework consisted of a set mesh operators that can be applied in varying order to the input initial mesh. However, there is no consistent scheduling of such operators and it was left to the user to choose the right scheduling. In this report, we argue that it is possible to automate the scheduling by leveraging ideas from reinforcement learning and integrate it in the framework. Doing so, it is possible to apply the framework on large set of quality that has no mapping into geometric primitives e.g., aligning mesh edges with an underlying directional field ~\cite{Jakob:2015:IFM:2816795.2818078}. 
 
 
 \section{Introduction:}
-Processing of geometric models is a common practice in computer graphics ~\citep{Alliez2008}, visualization, finite element analysis for simulation ~\citep{ho1988finite}, and computer aided-design. These models are used as linear approximation for some underlying surface. These models or meshes could be acquired by laser scanner or modeling tool such as Autodesk Maya, ZBrush or Blender. Such process usually produces noisy meshes with artifacts that makes the processing of such meshes impossible. For that reason, geometry processing comes as an important stage in the 3D modeling acquisition pipeline ~\citep{CGF:CGF00574} to improve the quality of the mesh and make the further processing of the models feasible. Improving the quality of initial mesh is also called \emph{remeshing}.
+Processing of geometric models is a common practice in computer graphics ~\citep{Alliez2008}, visualization, finite element analysis for simulation ~\citep{ho1988finite}, and computer aided-design. These models are used as linear approximation for some underlying surface. These models or meshes could be acquired by laser scanner or modeling tool such as Autodesk Maya, ZBrush or Blender. Such process usually produces noisy meshes with artifacts that makes the further processing of such meshes impossible. For that reason, geometry processing comes as an important stage in the 3D modeling acquisition pipeline ~\citep{CGF:CGF00574} to improve the quality of the mesh and make the further processing of the models feasible. Improving the quality of initial mesh is also called \emph{remeshing}.
 
 Remeshing is a multi-objective optimization process where the objective requirement could be sometimes conflicting. That could be the reason why most of the existing remeshing techniques usually focus on one objective. However, there have been a rise on remeshing algorithms with multiple objectives ~\citep{7756294, field, Jakob:2015:IFM:2816795.2818078}. 
 
@@ -86,11 +86,11 @@ Here we extend the algorithm described above and formulate the problem as MDP pr
 
 The environment here is presented by the mesh vertices, current number of obtuse-triangles, and ratio of failed to successful attempts for each operator. These three parameters are enough to  described the current state of the environment and there is no need to trace the history of the vertices movement. That way, the problem can be treated as MDP problem. The agent goal is reduce the number of obtuse triangles through taking one action at a time represented by one of the remeshing operators. The problem is treated as an episodic tasks through which the agent trying to reach the optimal policy. 
 
-For each action taken, it is successful in eliminate at least one obtuse triangle, we give a reward of one. Otherwise, the reward is always zero. We first experimented with giving negative rewards (-1) but this made the reward always negative. This could probably have some relation tied to the geometry of the problem. When final episode is represented by reaching non-obtuse mesh in which case a reward of 100 is given. If after number of episodes proportional to the number of initial mesh vertices is reached without reaching non-obtuse mesh, we give a reward of -100 and re-initialize the mesh. 
+For each action taken, it is successful in eliminate at least one obtuse triangle, we give a reward of one. Otherwise, the reward is always zero. We first experimented with giving negative rewards (-1) but this made the reward always negative. This could probably have some relation tied to the geometry of the problem. The final episode is represented by reaching non-obtuse mesh in which case a reward of 100 is given. If after number of episodes proportional to the number of initial mesh vertices is reached without reaching non-obtuse mesh, we give a reward of -100 and re-initialize the mesh. 
 
 
 \section{Numerical Results:}
-We applied several reinforcement learning algorithm over the stated problem. The algorithm were built on top of LibPGRL \citep{libpgrl} which fleixible implementation of several reinforcement learning application using C++. We experimented the above model using the following algorithms:
+We applied several reinforcement learning algorithm on the stated problem. The algorithm is built on top of LibPGRL \citep{libpgrl} which is a flexible environment to implementate several reinforcement learning algorithms using C++. We experimented the above model using the following algorithms:
 \begin{itemize}
 \item Actor Critic with NeuralNet approximator
 \item SARSA with NeuralNet approximator and Softmax policy with decaying temperature
@@ -101,22 +101,20 @@ We applied several reinforcement learning algorithm over the stated problem. The
 \item QLearning with NeuralNet approximator and e-Greedy policy with decaying epsilon
 \end{itemize}
 
-For each algorithm, a run consisted of 1M steps which are averaged over 20 runs. For consistency over all algorithms, we used $\lambda=0.9$, $\kappa=10^{-4}$, $\epsilon=0.5$. We reached this values through experimenting with different values and tuning up and down. The code can be found under \\
+For each algorithm, a run consisted of 1000 steps which are averaged over 15 runs. For consistency over all algorithms, we used $\lambda=0.9$, $\kappa=10^{-4}$, $\epsilon=0.5$. We reached these values through experimenting with different values and tuning up and down. The code can be found under \\
 \url{https://github.com/Ahdhn/EEC289A/tree/master/Project/code}. 
 
-\section{Conclusion:}
+Figure \ref{fig:rl} shows the average reward over 15 runs for the different algorithms. It would have been better to run the algorithms on a larger number of steps since it looks like the learning starts getting its effect after the first 900 steps. However, the problem is that timing is too high even on the small model we tried all the algorithms on; the model only has 100 vertex. We notice the decaying $\epsilon$ algorithms (either with SARSA or Q-Learning) are less powerful since they stabilize at a low reward value. The possible explanation of this is that with more exploitative policy, it is more likely to get in a stuck configuration with high penalty since we still have randomness over the final location of vertices. On the other side, SARSA with constant $\epsilon$ has the best behaviour; able to learn relatively faster. 
 
-%\begin{figure}[tbh]
- %\centering     
- %  \subfloat [Bunny]{\includegraphics[width=0.24\textwidth]{bunny.png}}
- %  \subfloat [Fertility]{\includegraphics[width=0.24\textwidth]{fertility.png}}
- %  \subfloat [Sphere]{\includegraphics[width=0.24\textwidth]{sphere.png}}   
-  % \subfloat [Torus]{\includegraphics[width=0.24\textwidth]{donut.png}}
-   
-  %   \caption{Results of brute-force ray tracing}
-  % \label{fig:brute}
-%\end{figure} 
-   
+\begin{figure}[htb]
+	\centering
+	\subfloat {\includegraphics[width=0.7\columnwidth]{figs/rl.jpg}}
+	\caption{Behavior of the different algorithms on the remeshing problem. }
+	\label{fig:rl}
+\end{figure}
+
+\section{Conclusion:}
+In this project, we have used reinforcement  learning a new class of problem that have not used it before. Even though most of the remeshing algorithms consist - in one way or another - of a set of remeshing operators that are applied repeatedly on input mesh until satisfactory results are reached, it is rare to find an algorithm with plausible scheduling of such operators. Most of these algorithms depend on empirical results. We tried in this project to test if it is possible to use few reinforcement  learning algorithms to automate the scheduling of the remeshing operator. The lesson learnt from this project is that it is possible to use reinforcement learning since the problem is well-formulated as MDP problem. However, the time that most of the algorithms take out-run their possible-superior performance over applying a random policy that repeats until good solution is reached. 
  
 \medskip
 
