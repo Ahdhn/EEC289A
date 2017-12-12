@@ -6,7 +6,8 @@
 \usepackage{subfig}
 \usepackage[square,numbers]{natbib}
 \bibliographystyle{unsrtnat}
-
+\usepackage{hyperref}
+\def\url#1{\expandafter\string\csname #1\endcsname}
 \title{EEC 289A - Project \\ Reinforcement Learning for Remeshing}
 \author{Ahmed H. Mahmoud}
 \date{} 
@@ -99,8 +100,11 @@ We applied several reinforcement learning algorithm over the stated problem. The
 \item QLearning with NeuralNet approximator and e-Greedy policy with constant epsilon
 \item QLearning with NeuralNet approximator and e-Greedy policy with decaying epsilon
 \end{itemize}
+
+For each algorithm, a run consisted of 1M steps which are averaged over 20 runs. For consistency over all algorithms, we used $\lambda=0.9$, $\kappa=10^{-4}$, $\epsilon=0.5$. We reached this values through experimenting with different values and tuning up and down. The code can be found under \\
+\url{https://github.com/Ahdhn/EEC289A/tree/master/Project/code}. 
+
 \section{Conclusion:}
-For each algorithm, a run consisted of 1M steps which are averaged over 20 runs. For consistency over all algorithms, we used $\lambda=0.9$, $\kappa=10^{-4}$, $\epsilon=0.5$. We reached this values through experimenting with different values and tuning up and down. 
 
 %\begin{figure}[tbh]
  %\centering     
